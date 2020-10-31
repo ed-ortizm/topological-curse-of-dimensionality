@@ -6,40 +6,32 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 
-################################################################################
-def lp_metric(x, y=None, p=2):
-
-    if y==None:
-        y = np.zeros(x.shape)
-
-    return np.sum((x-y)**p, axis=1)**(1/p)
-
-################################################################################
+from lib_metrics_spaces import lp, plot
 
 ti = time.time()
 
 N = 1_000 # number of points to sample
-
-pp = [2/10, 2/5, 2/4, 2/3, 1, 2, 3, 10, 20, 50, 100, 500, 1_000] # metric's parameter
-
-dd = np.arange(1,201) # dimensionality
-
-
+nn = np.arange(1,201) # dimensionality
+pp = [i/10. for i in range(1,11)]+[2, 3, 5, 10, 20] # metric's parameter
+DD = np.empty((N, nn.size)) # array to store distances
+print(pp)
 ## Sampling points
 
 np.random.seed(0)
 
-DD = np.empty((N, dd.size)) # array to store distances
+X = np.random.rand(N, nn.size)
 
 for p in pp:
 
-    for idd, d in enumerate(dd):
-        x = np.random.rand(N, d)
-        DD[:, idd] = lp_metric(x=x, p=p) # the origin [0,..., 0]  
+    for n in nn:
+
+        DD[:, n-1] = lp(X=X[:, :n+1], p=p) # the origin [0,..., 0]
 
     Dmin = np.min(DD, axis=0)
     Dmax = np.max(DD, axis=0)
     D_diff = Dmax-Dmin
+
+    plot(x=nn, y=D_diff, fname=f'contrast_p_{p}')
 
 tf = time.time()
 
