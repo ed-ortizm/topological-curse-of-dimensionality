@@ -1,6 +1,10 @@
 # Metrics' behavior in high dimensional spaces
 
-This repository is aimed at exploring the behavior of metrics in different spaces as is the case of spherical, hyperbolic and Euclidean spaces. After uniformly sampling a given number of points in the space under consideration, the difference between the distance of the farthest away point minus the closest one to a given reference will be inspected against the number of dimensions of the space. One concrete goal is to understand the curse of dimensionality in manifolds with different geometrical properties and try to design 'metrics' that are more suitable to explore distances in this spaces.
+This repository is aimed at exploring the behavior of metrics in different spaces as is the case of spherical, hyperbolic and Euclidean spaces. 
+After uniformly sampling a given number of points in the space under consideration, the difference between the distance of the farthest away 
+point minus the closest one to a given reference will be inspected against the number of dimensions of the space. One concrete goal is to understand 
+the curse of dimensionality in manifolds with different geometrical properties and try to design 'metrics' that are more suitable to explore distances
+in this spaces.
 
 We consider the following spaces:
 
