@@ -36,16 +36,18 @@ nn = np.arange(1,201)
 # pp = np.array([1/3, 1/2, 2/3, 1, 2, 3, 5, 10])
 D_mm = np.empty(nn.size)
 
+# origin = 'minima'
+origin = 'random'
+
 for n in nn:
 
     Hn = H_scale*(np.random.random(size=(N, n+1)) - 0.5) # embedded in Euclidean space
     Hn[:, 0] = np.sqrt(1 + np.sum(Hn[:, 1:]**2, axis=1))
-    Y = Hn[:, np.random.randint(low=0, high=n+1)]
-    d = hyp_dist(Hn, Y)
-    if n==1:
-        print(Y[0:10])
-    if n==100:
-        print(Y[0:10])
+
+    y = H_scale*(np.random.random(size=n+1) - 0.5)
+    y[0] = np.sqrt(1 + np.sum(y[1:]**2))
+
+    d = hyp_dist(Hn, y=y, origin=origin)
 
     D_mm[n-1] = np.max(d) - np.min(d)
 
