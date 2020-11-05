@@ -30,9 +30,11 @@ from lib_metrics_spaces import hyp_dist
 np.random.seed(0)
 ploth_path = './plots/hyperbolic_spaces'
 
-H_scale = 10_000_000
-N = 1_000 # number of points to generate in the n-sphere
+H_scale = 1
+N = 5_00 # number of points to generate in the n-sphere
 nn = np.arange(1,201)
+n_1_hyper = None
+n_2_hyper = None
 # pp = np.array([1/3, 1/2, 2/3, 1, 2, 3, 5, 10])
 D_mm = np.empty(nn.size)
 
@@ -44,6 +46,14 @@ for n in nn:
     Hn = H_scale*(np.random.random(size=(N, n+1)) - 0.5) # embedded in Euclidean space
     Hn[:, 0] = np.sqrt(1 + np.sum(Hn[:, 1:]**2, axis=1))
 
+    ## data for 2D and 3D plot
+    if n==1:
+        n_1_hyper = Hn
+
+    if n==2:
+        n_2_hyper = Hn
+
+    ## Query point
     y = H_scale*(np.random.random(size=n+1) - 0.5)
     y[0] = np.sqrt(1 + np.sum(y[1:]**2))
 
@@ -61,45 +71,22 @@ fig.savefig(f'{ploth_path}/hyperbic_distance.pdf')
 
 plt.close()
 
+fig, ax = plt.subplots(figsize=(10,10))
 
-## 1-hyperbola
-# N = 100
-# n=1
-# x = np.empty((N, n+1 )) # embedded in Euclidean space
-#
-# for idx in range(N):
-#     x[idx, 0:n] = np.random.normal(loc=0, scale=1, size=n)
-#     # x[idx, :] = np.random.random(size=nn[1]) - 0.5
-#     # both work, notheless I keep the first one, after I check the paper, I'll see.
-#
-# x[:, n] = np.sqrt(1 + np.sum(x[:, :n]**2, axis=1))
-#
-#
-# fig, ax = plt.subplots(figsize=(10,10))
-#
-# ax.scatter(x[:, 0], x[:, 1])
-# ax.set_aspect('equal', adjustable='box')
-# # plt.show()
-# # plt.close()
-# fig.savefig(f'./hyperbolic/{n}_hyperbola.png')
-#
-# ## 2-hyperbola
-# N = 1_000
-# n=2
-# x = np.empty((N, n+1 )) # embedded in Euclidean space
-#
-# for idx in range(N):
-#     # x[idx, 0:n] = np.random.normal(loc=0, scale=1, size=n)
-#     x[idx, 0:n] = np.random.random(size=n) - 0.5
-#     # both work, notheless I keep the first one, after I check the paper, I'll see.
-#
-# x[:, n] = np.sqrt(1 + np.sum(x[:, :n]**2, axis=1))
-#
-#
-# fig, tmp = plt.subplots(figsize=(10,10))
-# ax = Axes3D(fig)
-#
-# ax.scatter(x[:, 0], x[:, 1], x[:, 2])
-# # plt.show()
-# # plt.close()
-# fig.savefig(f'./hyperbolic/{n}_hyperbola.png')
+################################################################################
+## plot 1-hyperbolic space
+ax.scatter(n_1_hyper[:, 1], n_1_hyper[:, 0])
+# plt.show()
+fig.savefig(f'{ploth_path}/n_2_hyperbolic_space.png')
+fig.savefig(f'{ploth_path}/n_2_hyperbolic_space.pdf')
+plt.close()
+################################################################################
+## 2-hyperbola
+fig, tmp = plt.subplots(figsize=(10,10))
+ax = Axes3D(fig)
+
+ax.scatter(n_2_hyper[:, 2], n_2_hyper[:, 1], n_2_hyper[:, 0])
+# plt.show()
+fig.savefig(f'{ploth_path}/n_3_hyperbolic_space.png')
+fig.savefig(f'{ploth_path}/n_3_hyperbolic_space.pdf')
+plt.close()
