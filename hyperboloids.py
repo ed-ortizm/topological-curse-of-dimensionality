@@ -1,10 +1,11 @@
 #! /usr/bin/env python3
 
+import time
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
-from lib_metrics_spaces import hyp_dist
+from lib_metrics_spaces import hyp_dist, plot
 
 ## Wikipedia page for Hyperbolic space
 
@@ -25,16 +26,19 @@ from lib_metrics_spaces import hyp_dist
 # embedded in R^{n+1} --> x_o^2 - x_1^2 - ... - x_n^2 = 1, x_o > 0
 
 # In this model a line (or geodesic) is the curve formed by the intersection
-# of H^n with a plane through the origin in R^{n+1}.
+# of H^n with a plane through the origin in R^{n+1}.\
 
+################################################################################
+ti = time.time()
+################################################################################
 np.random.seed(0)
-ploth_path = './plots/hyperbolic_spaces'
+path_plot = './plots/hyperbolic_spaces'
 
 H_scale = 1
-N = 5_00 # number of points to generate in the n-sphere
+N = 5_00 # number of points to generate in H^n
 nn = np.arange(1,201)
-n_1_hyper = None
-n_2_hyper = None
+n_1_hyper = None # data for 2D and 3D plot
+n_2_hyper = None # data for 2D and 3D plot
 # pp = np.array([1/3, 1/2, 2/3, 1, 2, 3, 5, 10])
 D_mm = np.empty(nn.size)
 
@@ -61,32 +65,41 @@ for n in nn:
 
     D_mm[n-1] = np.max(d) - np.min(d)
 
-fig, ax = plt.subplots(figsize=(10,5))
+plot(x=nn, y=D_mm, fname=f'contrast_hyperbolic_space', path=path_plot,
+title='Distance behavior in hyperbolic spaces',
+metric='d(x,y)=arccosh($(Q(x+y)-2)/2 \\to Q(x) = x_0^2 - \cdots -x_n^2$')
 
-ax.scatter(nn[2:], D_mm[2:])
-plt.tight_layout()
+# fig, ax = plt.subplots(figsize=(10,5))
+# ax.scatter(nn[2:], D_mm[2:])
+# plt.tight_layout()
+#
+# fig.savefig(f'{ploth_path}/hyperbic_distance.png')
+# fig.savefig(f'{ploth_path}/hyperbic_distance.pdf')
+#
+# plt.close()
 
-fig.savefig(f'{ploth_path}/hyperbic_distance.png')
-fig.savefig(f'{ploth_path}/hyperbic_distance.pdf')
-
-plt.close()
-
-fig, ax = plt.subplots(figsize=(10,10))
 
 ################################################################################
 ## plot 1-hyperbolic space
+fig, ax = plt.subplots(figsize=(10,10))
+ax.set_title('$H^1$', fontsize='xx-large')
 ax.scatter(n_1_hyper[:, 1], n_1_hyper[:, 0])
 # plt.show()
-fig.savefig(f'{ploth_path}/n_2_hyperbolic_space.png')
-fig.savefig(f'{ploth_path}/n_2_hyperbolic_space.pdf')
+fig.savefig(f'{path_plot}/n_2_hyperbolic_space.png')
+fig.savefig(f'{path_plot}/n_2_hyperbolic_space.pdf')
 plt.close()
 ################################################################################
 ## 2-hyperbola
 fig, tmp = plt.subplots(figsize=(10,10))
 ax = Axes3D(fig)
+ax.set_title('$H^2$', fontsize='xx-large')
 
 ax.scatter(n_2_hyper[:, 2], n_2_hyper[:, 1], n_2_hyper[:, 0])
 # plt.show()
-fig.savefig(f'{ploth_path}/n_3_hyperbolic_space.png')
-fig.savefig(f'{ploth_path}/n_3_hyperbolic_space.pdf')
+fig.savefig(f'{path_plot}/n_3_hyperbolic_space.png')
+fig.savefig(f'{path_plot}/n_3_hyperbolic_space.pdf')
 plt.close()
+
+################################################################################
+tf = time.time()
+print(f'Running time: {tf-ti:.2f} seconds')

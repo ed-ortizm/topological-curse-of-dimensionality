@@ -9,16 +9,16 @@ def lp(X, Y=None, p=2):
 
     return np.sum((X-Y)**p, axis=1)**(1/p)
 ################################################################################
-def arccos_metric(X, Y=None):
+def arccos_metric(X, y, origin='1...0'):
 
-    if Y==None:
+    if origin=='1...0':
         # For this case, I set the origin in:
-        # Y = np.zeros(shape=X.shape)
-        # Y[:, -1] = 1, therefore
+        # y = np.zeros(X.shape[1])
+        # y[0] = 1, therefore
 
-        return np.arccos(X[:, -1])
+        return np.arccos(X[:, 0])
 
-    return np.arccos(np.sum(X*Y, axis=1))
+    return np.arccos(np.sum(X*y, axis=1))
 ################################################################################
 def Q(X):
     return X[:, 0]**2 - np.sum(X[:, 1:]**2, axis=1)
@@ -30,7 +30,7 @@ def hyp_dist(X, y, origin='minima'):
     if origin=='minima':
         # y = np.zeros(X.shape[1])
         # y[0] = 1. # reference point
-        X[:, 0] += 1
+        X[:, 0] += 1 # --> cuase B_xy = (Q(x+y)-Q(x)-Q(y))/2
         B_Xy = 0.5*( Q(X) - 2)
 
         return np.arccosh(B_Xy)
@@ -40,13 +40,30 @@ def hyp_dist(X, y, origin='minima'):
     return np.arccosh(B_Xy)
 ################################################################################
 
-def plot(x, y, fname, path, figsize=(10,5)):
+def plot(x, y, fname, path, title, metric, euclidean=False, p=None, figsize=(10,5)):
 
-    fig, ax = plt.subplots(figsize=figsize)
+    if euclidean:
 
-    ax.scatter(x, y)
-    plt.tight_layout()
-    fig.savefig(f'{path}/{fname}.png')
-    fig.savefig(f'{path}/{fname}.pdf')
-    plt.close()
+        fig, ax = plt.subplots(figsize=figsize)
+        ax.set_title(f'{title}\n {metric} $ \\to p=$ {p:.1f}', fontsize='xx-large')
+        ax.set_xlabel(f'Number of Diemnsions', fontsize='xx-large')
+        ax.set_ylabel(f'Contrast', fontsize='xx-large')
+
+        ax.scatter(x, y)
+        plt.tight_layout()
+        fig.savefig(f'{path}/{fname}.png')
+        fig.savefig(f'{path}/{fname}.pdf')
+        plt.close()
+    else:
+
+        fig, ax = plt.subplots(figsize=figsize)
+        ax.set_title(f'{title}\n {metric}', fontsize='xx-large')
+        ax.set_xlabel(f'Number of Diemnsions', fontsize='xx-large')
+        ax.set_ylabel(f'Contrast', fontsize='xx-large')
+
+        ax.scatter(x, y)
+        plt.tight_layout()
+        fig.savefig(f'{path}/{fname}.png')
+        fig.savefig(f'{path}/{fname}.pdf')
+        plt.close()
 ################################################################################

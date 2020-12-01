@@ -29,7 +29,8 @@ for p in pp:
         d = lp(X=X[:, :n+1], p=p)
         D_mm[n-1] = np.max(d) - np.min(d)
 
-    plot(x=nn, y=D_mm, fname=f'contrast_p_{p}', path=path_plot)
+    plot(x=nn, y=D_mm, fname=f'contrast_euclidean_p_{p}', path=path_plot,
+    title='Distance behavior in the n-d Euclidean Space', metric='d(x,y)=L_p(x,y)', euclidean=True, p=p)
 
 tf = time.time()
 
