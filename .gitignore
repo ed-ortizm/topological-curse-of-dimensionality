@@ -1,4 +1,5 @@
 # Mine
+*.pdf
 *.npy
 
 # Byte-compiled / optimized / DLL files
