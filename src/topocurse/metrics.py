@@ -7,11 +7,7 @@ a sphere, euclidean space and a hyperbolic manifold.
 import numpy as np
 
 
-def lp_distance(
-    X: np.array,
-    Y: np.array = None,
-    p: float = 2.
-) -> np.array:
+def lp_distance(X: np.array, Y: np.array = None, p: float = 2.0) -> np.array:
 
     """
     Lp metric to compute distance in  the Euclidean space
@@ -30,15 +26,13 @@ def lp_distance(
 
         Y = np.zeros(X.shape)
 
-    distance = np.sum((X-Y)**p, axis=1)**(1/p)
+    distance = np.sum((X - Y) ** p, axis=1) ** (1 / p)
 
     return distance
 
 
 def arccosine_distance(
-    X: np.array,
-    Y: np.array = None,
-    origin_at_angles_0: bool = True
+    X: np.array, Y: np.array = None, origin_at_angles_0: bool = True
 ) -> np.array:
 
     """
@@ -58,21 +52,19 @@ def arccosine_distance(
 
         # For this case, I set the origin in:
         Y = np.zeros(X.shape[1])
-        Y[0] = 1.
+        Y[0] = 1.0
 
         distance = np.arccos(X[:, 0])
 
         return distance
 
-    distance = np.arccos(np.sum(X*Y, axis=1))
+    distance = np.arccos(np.sum(X * Y, axis=1))
 
     return distance
 
 
 def hyperbolic_distance(
-    X: np.array,
-    Y: np.array = None,
-    origin_at_minima: bool = True
+    X: np.array, Y: np.array = None, origin_at_minima: bool = True
 ) -> np.array:
 
     """
@@ -91,17 +83,17 @@ def hyperbolic_distance(
     """
 
     def Q(X):
-        return X[:, 0]**2 - np.sum(X[:, 1:]**2, axis=1)
+        return X[:, 0] ** 2 - np.sum(X[:, 1:] ** 2, axis=1)
 
     if origin_at_minima is True:
 
         Y = np.zeros(X.shape[1])
-        Y[0] = 1.
-        B_XY = 0.5*(Q(X+Y) - Q(X) - Q(Y))
+        Y[0] = 1.0
+        B_XY = 0.5 * (Q(X + Y) - Q(X) - Q(Y))
 
         return np.arccosh(B_XY)
 
-    B_XY = 0.5*(Q(X+Y)-Q(X)-Q(Y))
+    B_XY = 0.5 * (Q(X + Y) - Q(X) - Q(Y))
 
     distance = np.arccosh(B_XY)
 

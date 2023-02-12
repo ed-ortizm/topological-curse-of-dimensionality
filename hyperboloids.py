@@ -32,42 +32,49 @@ from lib_metrics_spaces import hyp_dist, plot
 ti = time.time()
 ################################################################################
 np.random.seed(0)
-path_plot = './plots/hyperbolic_spaces'
+path_plot = "./plots/hyperbolic_spaces"
 
 H_scale = 1
-N = 5_00 # number of points to generate in H^n
-nn = np.arange(1,201)
-n_1_hyper = None # data for 2D and 3D plot
-n_2_hyper = None # data for 2D and 3D plot
+N = 5_00  # number of points to generate in H^n
+nn = np.arange(1, 201)
+n_1_hyper = None  # data for 2D and 3D plot
+n_2_hyper = None  # data for 2D and 3D plot
 # pp = np.array([1/3, 1/2, 2/3, 1, 2, 3, 5, 10])
 D_mm = np.empty(nn.size)
 
 # origin = 'minima'
-origin = 'random'
+origin = "random"
 
 for n in nn:
 
-    Hn = H_scale*(np.random.random(size=(N, n+1)) - 0.5) # embedded in Euclidean space
-    Hn[:, 0] = np.sqrt(1 + np.sum(Hn[:, 1:]**2, axis=1))
+    Hn = H_scale * (
+        np.random.random(size=(N, n + 1)) - 0.5
+    )  # embedded in Euclidean space
+    Hn[:, 0] = np.sqrt(1 + np.sum(Hn[:, 1:] ** 2, axis=1))
 
     ## data for 2D and 3D plot
-    if n==1:
+    if n == 1:
         n_1_hyper = Hn
 
-    if n==2:
+    if n == 2:
         n_2_hyper = Hn
 
     ## Query point
-    y = H_scale*(np.random.random(size=n+1) - 0.5)
-    y[0] = np.sqrt(1 + np.sum(y[1:]**2))
+    y = H_scale * (np.random.random(size=n + 1) - 0.5)
+    y[0] = np.sqrt(1 + np.sum(y[1:] ** 2))
 
     d = hyp_dist(Hn, y=y, origin=origin)
 
-    D_mm[n-1] = np.max(d) - np.min(d)
+    D_mm[n - 1] = np.max(d) - np.min(d)
 
-plot(x=nn, y=D_mm, fname=f'contrast_hyperbolic_space', path=path_plot,
-title='Distance behavior in hyperbolic spaces',
-metric='d(x,y)=arccosh($(Q(x+y)-2)/2 \\to Q(x) = x_0^2 - \cdots -x_n^2$')
+plot(
+    x=nn,
+    y=D_mm,
+    fname=f"contrast_hyperbolic_space",
+    path=path_plot,
+    title="Distance behavior in hyperbolic spaces",
+    metric="d(x,y)=arccosh($(Q(x+y)-2)/2 \\to Q(x) = x_0^2 - \cdots -x_n^2$",
+)
 
 # fig, ax = plt.subplots(figsize=(10,5))
 # ax.scatter(nn[2:], D_mm[2:])
@@ -81,25 +88,25 @@ metric='d(x,y)=arccosh($(Q(x+y)-2)/2 \\to Q(x) = x_0^2 - \cdots -x_n^2$')
 
 ################################################################################
 ## plot 1-hyperbolic space
-fig, ax = plt.subplots(figsize=(10,10))
-ax.set_title('$H^1$', fontsize='xx-large')
+fig, ax = plt.subplots(figsize=(10, 10))
+ax.set_title("$H^1$", fontsize="xx-large")
 ax.scatter(n_1_hyper[:, 1], n_1_hyper[:, 0])
 # plt.show()
-fig.savefig(f'{path_plot}/n_2_hyperbolic_space.png')
-fig.savefig(f'{path_plot}/n_2_hyperbolic_space.pdf')
+fig.savefig(f"{path_plot}/n_2_hyperbolic_space.png")
+fig.savefig(f"{path_plot}/n_2_hyperbolic_space.pdf")
 plt.close()
 ################################################################################
 ## 2-hyperbola
-fig, tmp = plt.subplots(figsize=(10,10))
+fig, tmp = plt.subplots(figsize=(10, 10))
 ax = Axes3D(fig)
-ax.set_title('$H^2$', fontsize='xx-large')
+ax.set_title("$H^2$", fontsize="xx-large")
 
 ax.scatter(n_2_hyper[:, 2], n_2_hyper[:, 1], n_2_hyper[:, 0])
 # plt.show()
-fig.savefig(f'{path_plot}/n_3_hyperbolic_space.png')
-fig.savefig(f'{path_plot}/n_3_hyperbolic_space.pdf')
+fig.savefig(f"{path_plot}/n_3_hyperbolic_space.png")
+fig.savefig(f"{path_plot}/n_3_hyperbolic_space.pdf")
 plt.close()
 
 ################################################################################
 tf = time.time()
-print(f'Running time: {tf-ti:.2f} seconds')
+print(f"Running time: {tf-ti:.2f} seconds")
