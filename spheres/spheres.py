@@ -1,14 +1,17 @@
-#! /usr/bin/env python3
-
+"""
+Reproduce results in spherical manifold from the paper:
+Aggarwal, C. C., &amp; Yu, P. S.(2001, May).
+Outlier detection for high dimensional data.
+In Proceedings of the 2001 ACM SIGMOD international conference
+on Management of data (pp. 37-46).
+"""
 import time
 
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
-from lib_metrics_spaces import arccos_metric, plot
+from metrics import arccos_metric, plot
 
-ti = time.time()
+start_time = time.perf_counter()
 
 path_plot = "./plots/spheres"
 
@@ -84,6 +87,6 @@ fig.savefig(f"{path_plot}/S_2.png")
 fig.savefig(f"{path_plot}/S_2.pdf")
 plt.close()
 
-################################################################################
-tf = time.time()
-print(f"Running time: {tf-ti:.2f} seconds")
+finish_time = time.perf_counter()
+
+print(f"Running time: {finish_time-start_time:.2f} [s]")
