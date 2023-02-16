@@ -6,6 +6,7 @@ In Proceedings of the 2001 ACM SIGMOD international conference
 on Management of data (pp. 37-46).
 """
 
+import os
 import time
 
 import matplotlib.pyplot as plt
@@ -18,7 +19,12 @@ def plot(
     x, y, fname, path, title, metric, euclidean=False, p=None, figsize=(10, 5)
 ):
 
-    if euclidean:
+    # creat path directory if not exists
+
+    if os.path.exists(path) is False:
+        os.makedirs(path)
+
+    if euclidean is True:
 
         fig, ax = plt.subplots(figsize=figsize)
         ax.set_title(
@@ -48,7 +54,7 @@ def plot(
 
 start_time = time.perf_counter()
 
-path_plot = "./plots/spheres"
+path_plot = "/home/edgar/Downloads/topo/spheres"
 
 np.random.seed(0)
 
@@ -79,7 +85,7 @@ for n in nn:
         y = None
         origin = False
 
-    d = arccosine_distance(X=S, y=s, origin_at_angles_0=origin)
+    d = arccosine_distance(X=S, Y=s, origin_at_angles_0=origin)
     D_mm[n - 1] = np.max(d) - np.min(d)
 # print(D_mm)
 plot(
