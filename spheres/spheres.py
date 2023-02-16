@@ -10,6 +10,8 @@ import os
 import time
 
 import matplotlib.pyplot as plt
+# import Axes3D
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 from topocurse.metrics import arccosine_distance
@@ -113,20 +115,20 @@ plot(
     figsize=(10, 10),
 )
 
-# # ## 3-sphere
-# # # uniform distributed points in the n-sphere
-# n = 3
-# R = np.sqrt(np.sum(X[:, :n] * X[:, :n], axis=1))
-# S = X[:, :n] * (1 / R[:, np.newaxis])
-# fig, tmp = plt.subplots(figsize=(10, 10))
-# ax = Axes3D(fig)
-# ax.set_title("S-2", fontsize="xx-large")
+# ## 3-sphere
+# # uniform distributed points in the n-sphere
+n = 3
+R = np.sqrt(np.sum(X[:, :n] * X[:, :n], axis=1))
+S = X[:, :n] * (1 / R[:, np.newaxis])
+fig, tmp = plt.subplots(figsize=(10, 10))
+ax = Axes3D(fig)
+ax.set_title("S-2", fontsize="xx-large")
 
-# ax.scatter(S[:, 0], S[:, 1], S[:, 2])
-# # plt.show()
-# fig.savefig(f"{path_plot}/S_2.png")
-# fig.savefig(f"{path_plot}/S_2.pdf")
-# plt.close()
+ax.scatter(S[:, 0], S[:, 1], S[:, 2])
+# plt.show()
+fig.savefig(f"{path_plot}/S_2.png")
+fig.savefig(f"{path_plot}/S_2.pdf")
+plt.close()
 
 finish_time = time.perf_counter()
 
