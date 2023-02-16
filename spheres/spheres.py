@@ -15,6 +15,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 from topocurse.metrics import arccosine_distance
+from topocurse.sampling import random_points_spheres
 
 
 def plot(
@@ -54,29 +55,26 @@ def plot(
         plt.close()
 
 
+np.random.seed(0)
+
 start_time = time.perf_counter()
 
 path_plot = "/home/edgar/Downloads/topo/spheres"
 
-np.random.seed(0)
 
 N = 1_000  # number of points
 nn = np.arange(1, 201)  # number of dimensions
 D_mm = np.empty(nn.size)
-
-## uniform sampling of points in the unit n-phere
-# Marsaglia
-X = np.random.normal(loc=0, scale=1, size=(N, nn.size))
-# X = 1.*(np.random.random(size=(N, nn.size)) - 0.5)
-# both work, notheless I keep the first one, after I check the paper, I'll see.
 
 origin = "random"
 
 for n in nn:
 
     # uniform distributed points in the n-sphere
-    R = np.sqrt(np.sum(X[:, :n] * X[:, :n], axis=1))
-    S = X[:, :n] * (1 / R[:, np.newaxis])
+    # R = np.sqrt(np.sum(X[:, :n] * X[:, :n], axis=1))
+    # S = X[:, :n] * (1 / R[:, np.newaxis])
+
+    S = random_points_spheres(n=n, N=N)
 
     if origin == "random":
         y = np.random.normal(loc=0, scale=1, size=n)
@@ -101,9 +99,8 @@ plot(
 
 ## 2-sphere
 # uniform distributed points in the n-sphere
-n = 2
-r = np.sqrt(np.sum(X[:, :n] * X[:, :n], axis=1))
-S = X[:, :n] * (1 / r[:, np.newaxis])
+
+S = random_points_spheres(n=2, N=N)
 
 plot(
     x=S[:, 0],
@@ -115,11 +112,8 @@ plot(
     figsize=(10, 10),
 )
 
-# ## 3-sphere
-# # uniform distributed points in the n-sphere
-n = 3
-R = np.sqrt(np.sum(X[:, :n] * X[:, :n], axis=1))
-S = X[:, :n] * (1 / R[:, np.newaxis])
+S = random_points_spheres(n=3, N=N)
+
 fig, tmp = plt.subplots(figsize=(10, 10))
 ax = Axes3D(fig)
 ax.set_title("S-2", fontsize="xx-large")
