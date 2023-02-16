@@ -7,11 +7,7 @@ with open("README.md", "r") as file:
 
 setup(
     name="topocurse",
-    version="1.0.0",
-    install_requires=[
-        "matplotlib == 3.5.1",
-        "numpy == 1.22.3"
-    ],
+    version="1.0",
     author="Edgar Ortiz",
     author_email="ed.ortizm@gmail.com",
     packages=find_packages(where="src", include=["[a-z]*"], exclude=[]),

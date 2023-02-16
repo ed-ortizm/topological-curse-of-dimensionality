@@ -13,3 +13,10 @@ We consider the following spaces:
 * The *n* dimensional *hiperbolic space*, costructed using the hyperboloid model, embedded in an n+1 dimensional space.
 
 This repository builds upon the work in  **Aggarwal, C. C., &amp; Yu, P. S.** (2001, May). **Outlier detection for high dimensional data.** In Proceedings of the 2001 ACM SIGMOD international conference on Management of data (pp. 37-46).
+
+# Install
+
+```python
+python3 setup.py develop --user
+```
+Make sure to use setuptools<66.0.0

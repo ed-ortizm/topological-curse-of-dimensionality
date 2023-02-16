@@ -4,7 +4,7 @@ import numpy as np
 
 def lp(X, Y=None, p=2):
 
-    if Y == None:
+    if Y is None:
         Y = np.zeros(X.shape)
 
     return np.sum((X - Y) ** p, axis=1) ** (1 / p)
@@ -27,8 +27,8 @@ def Q(X):
 
 
 def hyp_dist(X, y, origin="minima"):
-    ## https://en.wikipedia.org/wiki/Hyperbolic_space#:~:text=Hyperbolic%20space
-    ## %20is%20a%20space,also%20called%20the%20hyperbolic%20plane.
+    # https://en.wikipedia.org/wiki/Hyperbolic_space#:~:text=Hyperbolic%20space
+    # %20is%20a%20space,also%20called%20the%20hyperbolic%20plane.
 
     if origin == "minima":
         # y = np.zeros(X.shape[1])
