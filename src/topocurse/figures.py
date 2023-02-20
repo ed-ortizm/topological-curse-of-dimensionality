@@ -3,8 +3,9 @@ Functionality to plot figures of the behavior of the distance metrics in
 the Euclidean space, the n-Spheres and the n-hyperbolic spaces.
 """
 
-import matplotlib.pyplot as plt
 from typing import Tuple
+
+import matplotlib.pyplot as plt
 
 
 def contrast_plot(
