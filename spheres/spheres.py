@@ -17,43 +17,44 @@ import numpy as np
 
 from topocurse.metrics import arccosine_distance
 from topocurse.sampling import random_points_spheres
+from topocurse.figures import contrast_plot
 
 
-def plot(
-    x, y, fname, path, title, metric, euclidean=False, p=None, figsize=(10, 5)
-):
+# def plot(
+#     x, y, fname, path, title, metric, euclidean=False, p=None, figsize=(10, 5)
+# ):
 
-    # creat path directory if not exists
+#     # creat path directory if not exists
 
-    if os.path.exists(path) is False:
-        os.makedirs(path)
+#     if os.path.exists(path) is False:
+#         os.makedirs(path)
 
-    if euclidean is True:
+#     if euclidean is True:
 
-        fig, ax = plt.subplots(figsize=figsize)
-        ax.set_title(
-            f"{title}\n {metric} $ \\to p=$ {p:.1f}", fontsize="xx-large"
-        )
-        ax.set_xlabel("Number of Diemnsions", fontsize="xx-large")
-        ax.set_ylabel("Contrast", fontsize="xx-large")
+#         fig, ax = plt.subplots(figsize=figsize)
+#         ax.set_title(
+#             f"{title}\n {metric} $ \\to p=$ {p:.1f}", fontsize="xx-large"
+#         )
+#         ax.set_xlabel("Number of Diemnsions", fontsize="xx-large")
+#         ax.set_ylabel("Contrast", fontsize="xx-large")
 
-        ax.scatter(x, y)
-        plt.tight_layout()
-        fig.savefig(f"{path}/{fname}.png")
-        fig.savefig(f"{path}/{fname}.pdf")
-        plt.close()
-    else:
+#         ax.scatter(x, y)
+#         plt.tight_layout()
+#         fig.savefig(f"{path}/{fname}.png")
+#         fig.savefig(f"{path}/{fname}.pdf")
+#         plt.close()
+#     else:
 
-        fig, ax = plt.subplots(figsize=figsize)
-        ax.set_title(f"{title}\n {metric}", fontsize="xx-large")
-        ax.set_xlabel("Number of Diemnsions", fontsize="xx-large")
-        ax.set_ylabel("Contrast", fontsize="xx-large")
+#         fig, ax = plt.subplots(figsize=figsize)
+#         ax.set_title(f"{title}\n {metric}", fontsize="xx-large")
+#         ax.set_xlabel("Number of Diemnsions", fontsize="xx-large")
+#         ax.set_ylabel("Contrast", fontsize="xx-large")
 
-        ax.scatter(x, y)
-        plt.tight_layout()
-        fig.savefig(f"{path}/{fname}.png")
-        fig.savefig(f"{path}/{fname}.pdf")
-        plt.close()
+#         ax.scatter(x, y)
+#         plt.tight_layout()
+#         fig.savefig(f"{path}/{fname}.png")
+#         fig.savefig(f"{path}/{fname}.pdf")
+#         plt.close()
 
 
 np.random.seed(0)
@@ -89,34 +90,63 @@ for n in nn:
     d = arccosine_distance(X=S, Y=s, origin_at_angles_0=origin)
     D_mm[n - 1] = np.max(d) - np.min(d)
 # print(D_mm)
-plot(
-    x=nn,
-    y=D_mm,
-    fname="contrast_sphere",
-    path=path_plot,
-    title="Distance behavior in the n-spheres",
+
+# creat path directory if not exists
+
+if os.path.exists(path_plot) is False:
+    os.makedirs(path_plot)
+
+fig, ax = contrast_plot(
     metric="d(x,y)=arccos(x $\cdot$ y)",
+    title="Distance behavior in the n-spheres",
 )
+
+ax.scatter(nn, D_mm)
+fig.savefig(f"{path_plot}/contrasts_sphere.png")
+fig.savefig(f"{path_plot}/contrasts_sphere.pdf")
+plt.close()
+# plot(
+#     x=nn,
+#     y=D_mm,
+#     fname="contrast_sphere",
+#     path=path_plot,
+#     title="Distance behavior in the n-spheres",
+#     metric="d(x,y)=arccos(x $\cdot$ y)",
+# )
 
 ## 2-sphere
 # uniform distributed points in the n-sphere
 
 S = random_points_spheres(n=2, N=N)
 
-plot(
-    x=S[:, 0],
-    y=S[:, 1],
-    fname=f"n_{n}_sphere",
-    path=path_plot,
+fig, ax = contrast_plot(
+    metric=" ",
     title="S-1",
-    metric="",
-    figsize=(10, 10),
 )
+
+fname = f"n_{n}_sphere"
+ax.scatter(S[:, 0], S[:, 1])
+fig.savefig(f"{path_plot}/{fname}.png")
+fig.savefig(f"{path_plot}/{fname}.pdf")
+plt.close()
+# 
+# plot(
+#     x=S[:, 0],
+#     y=S[:, 1],
+#     fname=f"n_{n}_sphere",
+#     path=path_plot,
+#     title="S-1",
+#     metric="",
+#     figsize=(10, 10),
+# )
+# 
+# n=3
 
 S = random_points_spheres(n=3, N=N)
 
 fig, tmp = plt.subplots(figsize=(10, 10))
-ax = Axes3D(fig)
+ax = Axes3D(fig=fig, auto_add_to_figure=False)
+fig.add_axes(ax)
 ax.set_title("S-2", fontsize="xx-large")
 
 ax.scatter(S[:, 0], S[:, 1], S[:, 2])
