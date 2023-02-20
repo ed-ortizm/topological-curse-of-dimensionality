@@ -89,9 +89,7 @@ def hyperbolic_distance(
 
         Y = np.zeros(X.shape[1])
         Y[0] = 1.0
-        B_XY = 0.5 * (Q(X + Y) - Q(X) - Q(Y))
-
-        return np.arccosh(B_XY)
+        Y = Y[np.newaxis, :]
 
     B_XY = 0.5 * (Q(X + Y) - Q(X) - Q(Y))
 

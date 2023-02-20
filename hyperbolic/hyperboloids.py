@@ -7,7 +7,7 @@ import numpy as np
 
 from lib_metrics_spaces import hyp_dist, plot
 from topocurse.sampling import random_points_hyperbolic
-
+from topocurse.metrics import hyperbolic_distance
 # Wikipedia page for Hyperbolic space
 
 # Euclid's parallel postulate is no longer assumed to hold. Instead, the 
@@ -49,7 +49,7 @@ n_2_hyper = None  # data for 2D and 3D plot
 D_mm = np.empty(nn.size)
 
 # origin = 'minima'
-origin = "random"
+origin_at_minima = False
 
 for n in nn:
 
@@ -68,10 +68,19 @@ for n in nn:
         n_2_hyper = Hn.copy()
 
     # Query point
-    y = H_scale * (np.random.random(size=n + 1) - 0.5)
-    y[0] = np.sqrt(1 + np.sum(y[1:] ** 2))
+    if origin_at_minima is False:
+        
+        Y = random_points_hyperbolic(n=n, N=1, H_scale=H_scale)
 
-    d = hyp_dist(Hn, y=y, origin=origin)
+    else:
+
+        Y = None
+
+    d = hyperbolic_distance(
+        X=Hn,
+        Y=Y,
+        origin_at_minima=origin_at_minima,
+    )
 
     D_mm[n - 1] = np.max(d) - np.min(d)
 
