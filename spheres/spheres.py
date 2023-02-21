@@ -48,7 +48,7 @@ for n in nn:
         s = y * (1 / r)
 
     else:
-    
+
         y = None
         origin = False
 
@@ -74,8 +74,8 @@ fig, ax = contrast_plot(
     metric=" ",
     title="S-1",
 )
-
-fname = f"n_{n}_sphere"
+n = 2
+fname = f"n_{2}_sphere"
 ax.scatter(S[:, 0], S[:, 1])
 fig.savefig(f"{path_plot}/{fname}.png")
 fig.savefig(f"{path_plot}/{fname}.pdf")

@@ -13,7 +13,7 @@ def contrast_plot(
     title: str,
     euclidean: bool = False,
     p: float = None,
-    figsize: tuple = None
+    figsize: tuple = None,
 ) -> Tuple[plt.Figure, plt.Axes]:
 
     """
@@ -38,9 +38,7 @@ def contrast_plot(
     """
 
     fig, ax = plt.subplots(
-        nrows=1, ncols=1,
-        tight_layout=True,
-        figsize=figsize
+        nrows=1, ncols=1, tight_layout=True, figsize=figsize
     )
 
     ax.minorticks_on()
@@ -51,8 +49,7 @@ def contrast_plot(
     if euclidean is True:
 
         ax.set_title(
-            f"{title}\n {metric} $ \\to p=$ {p:.1f}",
-            fontsize="xx-large"
+            f"{title}\n {metric} $ \\to p=$ {p:.1f}", fontsize="xx-large"
         )
 
     else:
