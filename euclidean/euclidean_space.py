@@ -8,9 +8,16 @@ import numpy as np
 
 from lib_metrics_spaces import lp, plot
 
+from topocurse.sampling import random_points_euclidean
+
 ti = time.time()
 
-path_plot = "./plots/euclidean_spaces"
+path_plot = "/home/edgar/Downloads/topo/euclidean"
+
+if os.path.exists(path_plot) is False:
+    os.mkdir(path_plot)
+
+
 
 N = 1_000  # number of points to sample
 nn = np.arange(1, 201)  # dimensionality
@@ -20,7 +27,8 @@ D_mm = np.empty(nn.size)  # array to store distances
 ## Sampling points
 
 np.random.seed(0)
-X = np.random.rand(N, nn.size)
+X = random_points_euclidean(n=nn.size, N=N)
+# X = np.random.rand(N, nn.size)
 
 for p in pp:
 

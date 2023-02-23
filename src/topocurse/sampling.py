@@ -76,3 +76,20 @@ def random_points_hyperbolic(n: int, N: int, H_scale: float = 1.0) -> np.array:
     H_n[:, 0] = np.sqrt(1 + np.sum(H_n[:, 1:] ** 2, axis=1))
 
     return H_n
+
+
+def random_points_euclidean(n: int, N: int) -> np.array:
+    """
+    Sample N points from the n-Euclidean space.
+
+    INPUT:
+    n: dimension of the Euclidean space
+    N: number of points to sample
+
+    OUTPUT:
+    E_n: Random sample of points in the n-Euclidean space. Shape (N, n)
+    """
+
+    E_n = np.random.random(size=(N, n))
+
+    return E_n
