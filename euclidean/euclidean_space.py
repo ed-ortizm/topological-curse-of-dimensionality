@@ -1,14 +1,15 @@
-#! /usr/bin/env python3
+"blalalalal"
 
 import os
 import time
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import numpy as np
 
 from lib_metrics_spaces import lp, plot
-
 from topocurse.sampling import random_points_euclidean
+from topocurse.metrics import lp_distance
+
 
 ti = time.time()
 
@@ -34,7 +35,9 @@ for p in pp:
 
     for n in nn:
 
-        d = lp(X=X[:, : n + 1], p=p)
+        d = lp_distance(X=X[:, : n + 1], p=p)
+        # (X=X[:, : n + 1], p=p)
+        # d = lp(X=X[:, : n + 1], p=p)
         D_mm[n - 1] = np.max(d) - np.min(d)
 
     plot(
